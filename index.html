@@ -443,6 +443,19 @@ html.wl #desk .ic,html.wl #ib,html.wl #ph{opacity:0!important;animation:none!imp
 .win.rz .fmain>.body,.win.max .fmain>.body,.win.rz .fside,.win.max .fside{max-height:none}
 .win.max .fmain>.body{max-height:none}
 @media(max-width:640px){.fside{display:none}}
+.rdr,.lrd{padding:0;overflow:hidden;display:flex;flex-direction:column;max-height:none}
+.rdr{height:min(68vh,640px)}
+.lrd{flex:1;min-width:0}
+.lbw .nt{height:min(70vh,640px)}
+.rdc{padding:28px 24px;display:flex;flex-direction:column;gap:8px;align-items:flex-start;color:var(--ink)}
+.rdc span,.rdc p{color:var(--mut2);margin:0}
+.rdc .btn{margin-top:6px;text-decoration:none;display:inline-block}
+.rdrb{flex:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 14px;border-bottom:1px solid var(--line);background:var(--tb);font-size:.8em;color:var(--mut2)}
+.rdrb a{color:var(--acc);white-space:nowrap}
+.rdrf{flex:1;min-height:0;width:100%;border:0;background:#fff;display:block}
+.win.rz>.rdr,.win.max>.rdr{flex:1;min-height:0;height:auto}
+.ni .bkt{display:inline-block;margin-top:3px;background:var(--red2);color:#fff;font-style:normal;font-size:.68em;padding:2px 8px;border-radius:10px}
+.ni.s .bkt{background:#fff;color:var(--red2)}
 </style>
 <script>window.ARCHIVIO_SOURCE={wp:"wpcom:enzoricciodotcom.wordpress.com",label:"enzoriccio.com",exclude:["home"]};document.documentElement.className+=" wl";</script></head>
 <body>
@@ -473,9 +486,10 @@ var SAMPLE=[
 F("Drammaturgia",[P("Il coraggio di essere / R. Giordano","2026"),P("Untitled / Royal Divorce","In corso"),P("Un corpo che non ho inventato io","2025"),P("ab-ovo","2024"),P("cassandra (oggi sarò colpita a morte)","2024"),P("Mater Familias","2023")]),
 F("Curatela",[P("404 Not-Føunded Territories","2026"),P("Miquela O’Campo Kollektiv Oozing Archive","2026")]),
 F("Regia & Sound",[P("GAIA","2024"),P("Tema 2023","2023"),P("NSFW 1:1","In corso")]),
+{slug:"libri",title:"Libri",meta:"",html:"",kids:[{slug:"i-benandanti",title:"I benandanti",meta:"",kids:[],html:"<p>Carlo Ginzburg</p><p>Sto leggendo</p><p><a href='https://archive.org/details/ginzburg-c.-i-benandanti.-stregoneria-e-culti-agrari-tra-cinquecento-seicento-ocr-1966'>Leggi</a></p>"}]},
 {slug:"info",title:"Info.txt",meta:"",kids:[],html:"<p>Dramaturg e Graphic Designer, lavoro tra Napoli e Venezia intrecciando ricerca performativa, scrittura critica e visual design. Mi sono formato in Teatro e Arti performative allo IUAV di Venezia e in Grafica all’Accademia ILAS di Napoli.</p><p><a href='mailto:"+MAIL+"'>Email</a></p>"}
 ];
-var ALL={},SC=0,TREE=[],INFO=null,ROOT=null;
+var ALL={},SC=0,TREE=[],INFO=null,ROOT=null,LIBS=[];
 function slug(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"x"}
 function kindOf(n){var h=n.html||"";if(n.kids.length||(!h.trim()&&!n.soon))return"folder";if(/<audio|\.(mp3|wav|m4a|ogg|flac)\b/i.test(h))return"audio";if(/wp-block-file|\.(pdf|zip|docx?|xlsx?|pptx?|epub)\b/i.test(h))return"file";if(/<img|<figure/i.test(h)&&n.txt.trim().length<40)return"image";return"doc"}
 function prep(list,parent,pre){list.forEach(function(n){n.parent=parent||null;n.id=n.id||(pre+(++SC));n.slug=n.slug||slug(n.title);n.kids=n.kids||[];n.txt=plain(n.html||"");n.media=mediaOf(n.html||"");n.media.forEach(function(m){m.node=n;m.title=m.title||n.title});prep(n.kids,n,pre);n.kind=kindOf(n);ALL[n.id]=n})}
@@ -522,6 +536,7 @@ var SYS=[
 {id:"prev",n:"Anteprima",kind:"prev",w:780},
 {id:"note",n:"Note",kind:"note",w:660,letter:"N"},
 {id:"blog",n:"Diario di bordo",kind:"blog",w:700},
+{id:"libri",n:"Libri",kind:"libri",w:900,letter:"L"},
 {id:"cal",n:"Calendario",kind:"cal",w:760,letter:"C"},
 {id:"trash",n:"Cestino",kind:"finder",node:TRASHN,tr:1,w:660,letter:"C"}];
 var byId={};SYS.forEach(function(a){a.letter=a.letter||a.n[0];byId[a.id]=a});
@@ -532,7 +547,7 @@ function setSel(ids){SEL={};ids.forEach(function(i){SEL[i]=1})}
 function isOpen(id){return !!S.win[id]}
 function liveIds(){return Object.keys(S.win)}
 function topWin(){var best=null,bz=-1;liveIds().forEach(function(id){var w=S.win[id];if(w.st==="open"){var z=+w.el.style.zIndex||0;if(z>bz){bz=z;best=id}}});return best}
-var APPN={cal:"Calendario",mail:"Mail",prev:"Anteprima",blog:"Diario di bordo",settings:"Impostazioni di Sistema",infos:"Informazioni e assistenza",contacts:"Contatti"};
+var APPN={libri:"Libri",reader:"Lettore",cal:"Calendario",mail:"Mail",prev:"Anteprima",blog:"Diario di bordo",settings:"Impostazioni di Sistema",infos:"Informazioni e assistenza",contacts:"Contatti"};
 function curApp(){var a=S.front&&byId[S.front],k=a&&a.kind;return k==="note"?"Note":(a&&a.tr)?"Cestino":APPN[k]||"Finder"}
 /* ---------- impostazioni persistenti ---------- */
 var OK="archivio.os.v1",os={fr:{},loc:{},pos:{},trash:[],tags:{},view:"icons",group:"none",theme:"light",themeSet:false,contrast:"normal",isz:"m",fsz:"m",dock:["fin","prev","note","cal","mail"]};
@@ -540,7 +555,7 @@ try{var rw=localStorage.getItem(OK);if(rw){var q=JSON.parse(rw);if(q&&typeof q==
  ["dock"].forEach(function(k){if(Array.isArray(q[k]))os[k]=q[k].filter(function(x){return typeof x==="string"})});
  if(q.fr&&typeof q.fr==="object")Object.keys(q.fr).forEach(function(k){var v=q.fr[k];if(v&&[v.x,v.y,v.w,v.h].every(function(n){return typeof n==="number"&&isFinite(n)}))os.fr[k]={x:v.x,y:v.y,w:v.w,h:v.h}});if(q.loc&&typeof q.loc==="object")Object.keys(q.loc).forEach(function(k){if(typeof q.loc[k]==="string")os.loc[k]=q.loc[k]});if(q.pos&&typeof q.pos==="object")os.pos=q.pos;if(Array.isArray(q.trash))os.trash=q.trash.filter(function(i){return typeof i==="string"});
  if(q.tags&&typeof q.tags==="object")os.tags=q.tags;if(["icons","list","cols","gal"].indexOf(q.view)>=0)os.view=q.view;if(["none","name","kind","size","tag"].indexOf(q.group)>=0)os.group=q.group;if(q.themeSet&&(q.theme==="light"||q.theme==="dark")){os.theme=q.theme;os.themeSet=true}if(q.contrast==="high")os.contrast="high";if(ICW[q.isz])os.isz=q.isz;if(FZ[q.fsz])os.fsz=q.fsz}}}catch(e){}
-function saveOS(){try{localStorage.setItem(OK,JSON.stringify(os))}catch(e){}}
+function saveOS(){try{var c={};Object.keys(os).forEach(function(k){c[k]=os[k]});c.fr={};Object.keys(os.fr).forEach(function(k){if(!(os.fr[k]&&os.fr[k].d))c.fr[k]=os.fr[k]});localStorage.setItem(OK,JSON.stringify(c))}catch(e){}}
 /* ---------- note: dati (persistono per tutta la sessione e oltre) ---------- */
 var KEY="archivio.note.v1",store={notes:[],sel:null},tmr=0;
 try{var raw=localStorage.getItem(KEY);if(raw){var p=JSON.parse(raw);if(p&&Array.isArray(p.notes)){store=p}}}catch(e){}
@@ -565,6 +580,8 @@ function bodyFor(a){
  if(a.kind==="prev")return'<div class="body nb"><div class="pv"><div class="pvs"></div><div class="pvm"><div class="pvb"><button class="pvp" type="button" aria-label="Precedente">‹</button><span class="pvn"></span><button class="pvq" type="button" aria-label="Successivo">›</button></div><div class="pvx"></div></div></div></div>';
  if(a.kind==="cal")return'<div class="body nb"><div class="cl"><div class="cs"><div class="ch"><button class="cp" type="button" aria-label="Mese precedente">‹</button><b class="cm"></b><button class="cto" type="button">Oggi</button><button class="cn" type="button" aria-label="Mese successivo">›</button></div><div class="cw"></div><div class="cg"></div></div><div class="ce"><h4 class="cd"></h4><div class="cv"></div><h5 class="cu">Prossimi appuntamenti</h5><div class="cx2"></div></div></div></div>';
  if(a.kind==="blog")return'<div class="body nb"><div class="nt"><div class="nsb"><div class="nl"></div></div><div class="bm"><div class="vw txt"></div></div></div></div>';
+if(a.kind==="libri")return'<div class="body nb lbw"><div class="nt"><div class="nsb"><div class="nl"></div></div><div class="lrd"></div></div></div>';
+if(a.kind==="reader")return'<div class="body rdr lrd"></div>';
  if(a.kind==="text")return'<div class="body"><div class="txt">'+a.html+'</div></div>';
  if(a.kind==="settings"||a.kind==="infos")return'<div class="body"><div class="set"></div></div>';
  if(a.kind==="contacts")return'<div class="body"><div class="ct"><div class="cr"><span>Email</span><a href="mailto:'+MAIL+'">'+MAIL+'</a></div><div class="cr"><span>Base</span><small>Napoli · Venezia</small></div><button class="btn" type="button">Ho un’idea in mente…</button></div></div>';
@@ -604,6 +621,8 @@ function create(id){var a=byId[id],w=document.createElement("div"),W=innerWidth,
   e.addEventListener("blur",persist);noteUI()}
  else if(a.kind==="finder")finderInit(id);
  else if(a.kind==="view")viewInit(w,id);
+ else if(a.kind==="reader")readerSet(w,a);
+ else if(a.kind==="libri")libriInit(id);
  else if(a.kind==="prev")pvInit(w,id);
  else if(a.kind==="blog")blogInit(w,id);
  else if(a.kind==="cal")calInit(w);
@@ -818,7 +837,7 @@ function infosUI(){var w=S.win.inf;if(!w)return;var box=$(".set",w.el);if(box.fi
  '<p><b>Memoria del tuo browser.</b> Sul tuo dispositivo vengono salvati soltanto tema, dimensioni, posizione di icone, foto e riquadri, tag, e le note che scrivi. Servono a ritrovare il sito come l’hai lasciato; restano sul tuo dispositivo e non vengono inviate a nessuno. Puoi cancellarle qui sotto.</p>'+
  '<p><b>Dati tecnici di collegamento.</b> Per mostrarti il sito si usano servizi di terzi, che ricevono il tuo indirizzo IP e i dati tecnici del browser, come accade con qualunque sito: '+host+' (che ospita il sito)'+(wp?' e '+wp+' (da cui il sito legge testi, immagini e file)':'')+'. Servono a far funzionare e proteggere il sito, e non li uso per profilarti. Questi fornitori possono trattare i dati anche fuori dall’Unione Europea; per i tempi di conservazione valgono le loro informative, che non controllo.</p>'+
  '<p><b>Rimozione di IP e dati tecnici.</b> Questi dati restano nei registri tecnici dei fornitori, non in un archivio che gestisco io, quindi la richiesta di cancellazione va fatta a loro: '+(LG.hosting?'':'<a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener">Netlify</a>')+(wp?(LG.hosting?'':' e ')+'<a href="https://automattic.com/privacy/" target="_blank" rel="noopener">Automattic (WordPress.com)</a>':'')+', indicando il tuo indirizzo IP e la data approssimativa della visita. Di solito i registri si cancellano da soli dopo un certo periodo. Se non sai come fare, scrivimi e ti indico i passi.</p>'+
- '<p><b>Contenuti di altri servizi.</b> Alcune pagine possono incorporare video, audio o mappe di altri servizi (per esempio YouTube, Vimeo, SoundCloud), che possono impostare cookie propri secondo le loro regole.</p>'+
+ '<p><b>Contenuti di altri servizi.</b> Alcune pagine possono incorporare video, audio o mappe di altri servizi (per esempio YouTube, Vimeo, SoundCloud), che possono impostare cookie propri secondo le loro regole. L’app “Libri” può rimandare a un sito esterno, che si apre in una nuova scheda con le sue regole. Quando apri l’app “Libri” o un libro, nella finestra viene caricato il contenuto dal servizio che lo ospita, per esempio il lettore di Internet Archive o un file PDF: da quel momento quel servizio riceve il tuo indirizzo IP e i dati tecnici del browser, e Internet Archive può impostare cookie propri. Finché non apri l’app o un libro, non viene caricato nulla.</p>'+
  '<p><b>Se mi scrivi.</b> Il sito non invia nulla da solo: dalla finestra “Ho un’idea in mente” si apre il tuo programma di posta con il messaggio pronto, e il messaggio arriva a me solo se lo invii tu. Uso nome, email e testo solo per risponderti, e li conservo per il tempo necessario a farlo e a gestire l’eventuale collaborazione che ne nasce.</p>'+
  '<p><b>I tuoi diritti.</b> Per i messaggi che mi invii puoi chiedere accesso, rettifica o cancellazione scrivendomi a '+mail+': sono io a ricevere e conservare quei dati. Per l’indirizzo IP e i dati tecnici vale quanto scritto sopra. Hai anche il diritto di presentare reclamo al Garante per la protezione dei dati personali (garanteprivacy.it).</p>'+
  '<p><b>Cancella i dati salvati sul tuo dispositivo:</b></p><div class="srow"></div><p class="sst" role="status" aria-live="polite"></p>',true);
@@ -983,7 +1002,7 @@ function trashState(){trashTile.innerHTML=bin(os.trash.length>0);trashUI()}
 function trashUI(){if(S.win.trash&&S.win.trash.path)fRender("trash")}
 /* ---------- dock ---------- */
 var tipT=0,tipFor=null,hideT=0,ptr=null,raf=0,hovK=null;
-var TN={fin:"Finder",prev:"Anteprima",blog:"Diario di bordo",note:"Note",cal:"Calendario",mail:"Mail",dl:"Download",trash:"Cestino"};
+var TN={fin:"Finder",prev:"Anteprima",blog:"Diario di bordo",libri:"Libri",note:"Note",cal:"Calendario",mail:"Mail",dl:"Download",trash:"Cestino"};
 function wireTile(k){
  function wid(){return k.dataset.win||k.dataset.id}
  function act(){hideTip();var id=wid();if(id==="dl")toggleStack(k);else{closeStack();openApp(id)}}
@@ -1000,6 +1019,7 @@ function wireTile(k){
 var DI={
 fin:'<svg viewBox="0 0 64 64"><defs><linearGradient id="fa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5cb8ff"/><stop offset="1" stop-color="#0a4fc9"/></linearGradient><linearGradient id="fb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3a3a"/><stop offset="1" stop-color="#0c0c0c"/></linearGradient></defs><rect x="2" y="2" width="60" height="60" rx="14" fill="url(#fb)"/><path d="M2 16A14 14 0 0 1 16 2h16v60H16A14 14 0 0 1 2 48z" fill="url(#fa)"/><path d="M32 4v56" stroke="#000" stroke-opacity=".45" stroke-width="1.5"/><path d="M21 15v11M43 15v11" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M33 26v13q0 4-5 4" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M15 43q17 14 34 0" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/></svg>',
 prev:'<svg viewBox="0 0 64 64"><rect x="2" y="2" width="60" height="60" rx="14" fill="#f2f2f2"/><rect x="9" y="10" width="42" height="34" rx="4" fill="#1a1a1a"/><circle cx="21" cy="21" r="4.5" fill="#5cb8ff"/><path d="M9 40l13-13 9 9 7-7 13 13v2a4 4 0 0 1-4 4H13a4 4 0 0 1-4-4z" fill="#2f8ff7"/><circle cx="44" cy="43" r="10" fill="#fff" fill-opacity=".92" stroke="#1a1a1a" stroke-width="3.2"/><path d="M51.5 50.5L58 57" stroke="#1a1a1a" stroke-width="4.2" stroke-linecap="round"/></svg>',
+libri:'<svg viewBox="0 0 64 64"><rect x="2" y="2" width="60" height="60" rx="14" fill="#f2f2f2"/><path d="M16 14h14a4 4 0 0 1 4 4v32a3 3 0 0 0-3-3H16z" fill="#2f8ff7"/><path d="M48 14H34a4 4 0 0 0-4 4v32a3 3 0 0 1 3-3h15z" fill="#7cc0ff"/></svg>',
 blog:'<svg viewBox="0 0 64 64"><rect x="2" y="2" width="60" height="60" rx="14" fill="#f2f2f2"/><path d="M14 18h30M14 27h30M14 36h20" stroke="#2f8ff7" stroke-width="3.4" stroke-linecap="round"/><path d="M40 52l3-9 14-14 6 6-14 14z" fill="#1a1a1a"/><path d="M57 29l3-3a2.8 2.8 0 0 1 4 0l2 2a2.8 2.8 0 0 1 0 4l-3 3z" fill="#2f8ff7" transform="translate(-6 0)"/></svg>',
 note:'<svg viewBox="0 0 64 64"><rect x="2" y="2" width="60" height="60" rx="14" fill="#f2f2f2"/><path d="M2 16A14 14 0 0 1 16 2h32a14 14 0 0 1 14 14v7H2z" fill="#ffd60a"/><path d="M14 34h36M14 43h36M14 52h22" stroke="#b9b9b9" stroke-width="3" stroke-linecap="round"/></svg>',
 mail:'<svg viewBox="0 0 64 64"><defs><linearGradient id="ma" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5cb8ff"/><stop offset="1" stop-color="#0a4fc9"/></linearGradient></defs><rect x="2" y="2" width="60" height="60" rx="14" fill="url(#ma)"/><rect x="11" y="18" width="42" height="28" rx="4" fill="#fff"/><path d="M11 21l21 16 21-16" stroke="#2f8ff7" stroke-width="3" fill="none" stroke-linejoin="round"/></svg>',
@@ -1008,7 +1028,7 @@ function mkStatic(id,svg){var k=document.createElement("div");k.className="dk ap
 var sepA=document.createElement("div"),sepB=document.createElement("div");sepA.className="dsep no";sepB.className="dsep";
 DI.cal=calIcon();
 dock.appendChild(sepA);dock.appendChild(sepB);dock.appendChild(mkStatic("dl",DI.dl));trashTile=mkStatic("trash",bin(0));dock.appendChild(trashTile);
-var ST=["fin","prev","blog","note","cal","mail"];
+var ST=["fin","prev","blog","libri","note","cal","mail"];
 function inDock(id){return os.dock.indexOf(id)>=0}
 function mkPin(id){var a=byId[id],k=document.createElement("div"),nm=TN[id]||(a&&a.n)||id,svg=DI[id]||(a&&tileIcon(a));k.className="dk ap";k.dataset.id=id;k.dataset.name=nm;k.tabIndex=0;k.setAttribute("role","button");k.setAttribute("aria-label",nm);if(svg)k.innerHTML=svg;else k.textContent=(a&&a.letter)||nm[0];wireTile(k);return k}
 function dockSync(prune){if(prune)os.dock=os.dock.filter(function(i){return byId[i]||ST.indexOf(i)>=0});
@@ -1035,7 +1055,7 @@ document.addEventListener("pointerdown",function(e){if(!stkOpen)return;if(stk.co
 function updSep(){sepA.classList.toggle("no",!dock.querySelector(".dk.wt"))}
 function winTile(id){return dock.querySelector('[data-win="'+id+'"]')}
 function tileFor(id){return winTile(id)||dock.querySelector('.dk[data-id="'+id+'"]')}
-function tileIcon(a){return a.tr?bin(os.trash.length>0):a.kind==="finder"?fold:a.kind==="view"?(a.node?ICON[a.node.kind]:doc):a.kind==="note"?noteic:null}
+function tileIcon(a){return a.tr?bin(os.trash.length>0):a.kind==="finder"?fold:a.kind==="view"?(a.node?ICON[a.node.kind]:doc):a.kind==="note"?noteic:a.kind==="reader"?doc:a.kind==="libri"?DI.libri:null}
 function addWinTile(id){if(tileFor(id))return;var a=byId[id],k=document.createElement("div");k.className="dk wt";k.dataset.win=id;k.dataset.name=a.n;k.tabIndex=0;k.setAttribute("role","button");k.setAttribute("aria-label",a.n);var ic=tileIcon(a);if(ic)k.innerHTML=ic;else k.textContent=a.letter;dock.insertBefore(k,sepB);wireTile(k);updSep();layout()}
 function removeWinTile(id){var t=winTile(id);if(t){if(tipFor===t)hideTip();t.remove()}updSep();layout()}
 function dlUrl(k){if(LINKS[k])return LINKS[k];var n=DL&&DL.kids.filter(function(x){return x.slug===k})[0];if(n){var m=/href=["']([^"']+)["']/.exec(n.html||"");return m?m[1]:""}return""}
@@ -1092,7 +1112,7 @@ function tryMove(ids,els,org,u){var fl=ids.filter(function(i){return movable(ALL
  ids.forEach(function(i,k){os.pos[i]=org[k];icons[i].style.left=org[k][0]+"px";icons[i].style.top=org[k][1]+"px"});moveItems(fl,d);return true}
 function moveMenu(n,ids){var r=[];if(!movable(n))return r;ids=ids&&ids.length?ids:[n.id];if(canDrop(n,"proj"))r.push({l:"Sposta in Progetti",a:function(){moveItems(ids,"proj")}});if(canDrop(n,"desk"))r.push({l:"Sposta sulla scrivania",a:function(){moveItems(ids,"desk")}});return r}
 function tidyAll(){closeMenu();var pre={};Object.keys(icons).forEach(function(i){var e=icons[i];if(e&&!e.classList.contains("gone"))pre[i]=[e.offsetLeft,e.offsetTop]});var ch=Object.keys(os.loc).length>0;os.loc={};os.pos={};framesReset();saveOS();setSel([]);relayout(true,true);fixPaths();alignIcons();Object.keys(icons).forEach(function(i){var e=icons[i],o=pre[i];if(!e||e.classList.contains("gone"))return;if(!o){if(!reduce)e.style.animation="pop .5s both";return}var tx=e.style.left,ty=e.style.top;e.style.transition="none";e.style.left=o[0]+"px";e.style.top=o[1]+"px";void e.offsetWidth;e.style.transition="";e.style.left=tx;e.style.top=ty});render();layout();if(ch)refreshFinders()}
-function boot(top){closeAll();Object.keys(byId).forEach(function(k){if(!SYS.some(function(s){return s.id===k}))delete byId[k]});SEL={};
+function boot(top){var ln=top.filter(function(n){return n.slug==="libri"})[0];top=top.filter(function(n){return n!==ln});LIBS=(ln?ln.kids:[]).map(function(k){var p=bookParse(k.html);p.id=k.id;p.title=k.title||"";return p});closeAll();Object.keys(byId).forEach(function(k){if(!SYS.some(function(s){return s.id===k}))delete byId[k]});SEL={};
  TOPS=top;APPC={};DL=mkDL(top);NODES=[];(function walk(l,op){l.forEach(function(n){n.mv=true;n.op=op;n.okids=n.kids.slice();NODES.push(n);walk(n.kids,n)})})(top,null);
  PROJ={id:"proj",slug:"progetti",title:"Progetti",html:"",meta:"",kids:[],txt:"",media:[],kind:"folder",parent:null};ALL.proj=PROJ;
  ROOT={id:"root",slug:"",title:"Scrivania",html:"",meta:"",kids:[],txt:"",media:[],kind:"folder",parent:null};
@@ -1142,7 +1162,7 @@ var KL={folder:"Cartella",doc:"Testo",image:"Immagine",audio:"Audio",file:"File"
 function indexAll(){var r=[];
  (function walk(l,pp){l.forEach(function(n){if(os.trash.indexOf(n.id)>=0)return;r.push({type:KL[n.kind],title:n.title,sub:(pp.length?pp.join(" › ")+" — ":"")+(n.meta?n.meta+" · ":"")+n.txt.replace(/\s+/g," ").trim(),node:n});walk(n.kids,pp.concat(n.title))})})(TREE.concat(DL?[DL]:[]),[]);
  BLOG.forEach(function(b){r.push({type:"Diario",title:b.title,sub:bdate(b.date)+" — "+b.txt.replace(/\s+/g," ").trim(),blog:b.id})});
- r.push({type:"App",title:"Anteprima",sub:"foto immagini pdf lettore",id:"prev"},{type:"App",title:"Diario di bordo",sub:"blog diario",id:"blog"});
+ r.push({type:"App",title:"Anteprima",sub:"foto immagini pdf lettore",id:"prev"},{type:"App",title:"Diario di bordo",sub:"blog diario",id:"blog"},{type:"App",title:"Libri",sub:"libri lettura lettore pdf",id:"libri"});
  r.push({type:"Pagina",title:"Informazioni e assistenza",sub:"privacy cookie note legali accessibilità scorciatoie informazioni tecniche",id:"inf"},{type:"Pagina",title:"Informazioni su Finder",sub:plain(MANIFESTO),id:"man"},{type:"Pagina",title:"Contatti",sub:MAIL+" Napoli Venezia",id:"ct"},{type:"Pagina",title:"Ho un’idea in mente",sub:"Scrivimi un messaggio",id:"mail"},{type:"Pagina",title:"Impostazioni di Sistema",sub:"tema chiaro scuro contrasto dimensione icone testo",id:"set"},{type:"Pagina",title:"Cestino",sub:"archivi nascosti",id:"trash"});
  store.notes.forEach(function(n){r.push({type:"Nota",title:ntitle(n),sub:(n.t||"").replace(/\s+/g," ").trim(),id:"note",note:n.id})});return r}
 function spSearch(){var qv=norm(spi.value).trim(),toks=qv.split(/\s+/).filter(Boolean);spr.innerHTML="";spList=[];spSel=0;if(!toks.length)return;
@@ -1242,6 +1262,35 @@ function frMake(k,el,grip){FR[k]={el:el};el.tabIndex=0;el.classList.add("frm");
  el.addEventListener("contextmenu",function(e){e.preventDefault();e.stopPropagation();frSel(k,true);ctxMenu([{l:"Ripristina posizione e dimensioni",a:function(){delete os.fr[k];frApply(k,true)}}],e.clientX,e.clientY,el)})}
 function photoInit(){var el=document.createElement("div");el.id="ph";el.setAttribute("role","region");el.setAttribute("aria-label","Foto di Enzo. Trascinala per spostarla; usa i quadratini sui bordi per ridimensionarla. Con la tastiera: frecce per spostare, Maiusc più frecce per ridimensionare.");
  var im=document.createElement("img");im.src=PHOTO;im.alt="";im.draggable=false;el.appendChild(im);frMake("photo",el)}
+var LBP=null;
+function libriInit(id){var st=S.win[id],b=LIBS.filter(function(x){return LBP&&x.id===LBP})[0]||LIBS.filter(function(x){return x.reading})[0]||LIBS[0];st.cur=b?b.id:null;LBP=null;libriRender(id)}
+function openLibri(bid){LBP=bid||null;if(isOpen("libri")&&LBP){S.win.libri.cur=LBP;LBP=null;libriRender("libri")}openApp("libri")}
+function libriRender(id){var st=S.win[id];if(!st)return;var w=st.el,l=$(".nl",w),m=$(".lrd",w);l.innerHTML="";m.innerHTML="";
+ if(!LIBS.length){m.appendChild(mk("div","fe","Nessun libro ancora."));return}
+ var cur=LIBS.filter(function(x){return x.id===st.cur})[0]||LIBS[0];
+ LIBS.forEach(function(b){var r=mk("div","ni"+(b===cur?" s":""),"<div></div><small></small>");r.tabIndex=0;r.setAttribute("role","button");r.setAttribute("aria-label",b.title+(b.author?", "+b.author:"")+(b.reading?", sto leggendo":""));r.firstChild.textContent=b.title;var sm=r.lastChild;sm.textContent=b.author||"";sm.hidden=!b.author;if(b.reading){var tg=document.createElement("em");tg.className="bkt";tg.textContent="Sto leggendo";r.appendChild(tg)}
+  r.onclick=function(){if(st.cur===b.id)return;st.cur=b.id;libriRender(id)};r.onkeydown=function(ev){if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();r.click()}};l.appendChild(r)});
+ readerFill(m,cur.title,cur.src,cur.author)}
+function readerFill(box,title,src,author){box.innerHTML="";
+ if(src&&(src.t==="ia"||src.t==="pdf")){var ia=src.t==="ia",url=ia?"https://archive.org/details/"+encodeURIComponent(src.id):src.url,bar=document.createElement("div");bar.className="rdrb";var sm=document.createElement("small");sm.textContent=ia?"Lettore di Internet Archive. Per i libri in prestito serve un account gratuito.":"Documento PDF.";var a=document.createElement("a");a.className="rdro";a.target="_blank";a.rel="noopener";a.href=url;a.textContent=ia?"Apri su archive.org":"Apri in una scheda";bar.appendChild(sm);bar.appendChild(a);
+  var f=document.createElement("iframe");f.className="rdrf";f.title="Lettore: "+title;f.setAttribute("allow","fullscreen");if(ia)f.setAttribute("sandbox","allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms allow-fullscreen");f.src=ia?"https://archive.org/embed/"+encodeURIComponent(src.id):src.url;box.appendChild(bar);box.appendChild(f);return}
+ var c=document.createElement("div");c.className="rdc";var h=document.createElement("b");h.textContent=title;c.appendChild(h);if(author){var p=document.createElement("span");p.textContent="di "+author;c.appendChild(p)}
+ if(src&&src.t==="ext"){var q=document.createElement("p");q.textContent="Questo libro si legge su un altro sito.";var a2=document.createElement("a");a2.className="btn";a2.target="_blank";a2.rel="noopener";a2.href=src.url;a2.textContent="Apri in una nuova scheda";c.appendChild(q);c.appendChild(a2)}
+ else{var q2=document.createElement("p");q2.textContent="Nessun testo da leggere online.";c.appendChild(q2)}
+ box.appendChild(c)}
+function readerSet(w,a){readerFill($(".rdr",w),a.n,a.src)}
+function openReader(title,src){byId.rdr={id:"rdr",n:title||"Lettore",kind:"reader",w:820,letter:"L",src:src};var w=S.win.rdr;
+ if(w){$("em",w.el).textContent=byId.rdr.n;w.el.setAttribute("aria-label",byId.rdr.n);readerSet(w.el,byId.rdr);var t=tileFor("rdr");if(t){t.dataset.name=byId.rdr.n;t.setAttribute("aria-label",byId.rdr.n)}if(w.st==="min")restoreApp("rdr");focusApp("rdr",false);return}
+ create("rdr")}
+function iaId(u){try{var x=new URL(u);if(x.protocol!=="https:"&&x.protocol!=="http:")return"";if(!/^(www\.)?archive\.org$/i.test(x.hostname))return"";var m=x.pathname.match(/^\/(?:details|embed|stream)\/([^\/]+)/);if(!m)return"";var id=decodeURIComponent(m[1]);return/^[A-Za-z0-9._-]+$/.test(id)?id:""}catch(e){return""}}
+function bookSrc(u){if(!/^https?:\/\//i.test(u||""))return null;var id=iaId(u);if(id)return{t:"ia",id:id};try{var x=new URL(u);if(x.protocol==="https:"&&/\.pdf$/i.test(x.pathname))return{t:"pdf",url:u}}catch(e){}return{t:"ext",url:u}}
+function bookParse(html){var d=new DOMParser().parseFromString("<body>"+(html||"")+"</body>","text/html"),cov="",lk="",lt="",ok=function(u){return/^https?:\/\//i.test(u||"")};
+ var im=d.querySelector("img");if(im){cov=im.getAttribute("src")||"";im.remove()}
+ var a=d.querySelector("a[href]");if(a){lk=a.getAttribute("href")||"";lt=(a.textContent||"").trim();a.remove()}
+ Array.prototype.slice.call(d.body.querySelectorAll("p,figure,div")).forEach(function(e){if(!e.textContent.trim()&&!e.querySelector("img,a"))e.remove()});
+ var rd=false;Array.prototype.slice.call(d.body.querySelectorAll("p,div")).forEach(function(e){if(/^\s*sto leggendo\s*[.!]?\s*$/i.test(e.textContent)){rd=true;e.remove()}});
+ var ps=Array.prototype.slice.call(d.body.children),au="";if(ps.length){au=ps[0].textContent.trim();ps[0].remove()}
+ return{reading:rd,cover:ok(cov)?cov:"",link:ok(lk)?lk:"",lt:lt,author:au,rest:clean(d.body.innerHTML),src:bookSrc(lk)}}
 function infoInit(){var el=document.createElement("div");el.id="ib";el.setAttribute("role","region");el.setAttribute("aria-label","Informazioni su Enzo. Trascina la barra del titolo per spostarla; usa i quadratini sui bordi per ridimensionarla.");
  el.innerHTML='<div class="ibw"><div class="ibh"><span>Informazioni su Enzo</span></div><div class="ibc"><div class="vw txt"><div class="vc"></div></div></div></div>';frMake("info",el,".ibh")}
 function infoRender(){var f=FR.info;if(!f)return;var n=INFO&&ALL[INFO];f.el.hidden=!n;if(!n)return;var tt=(/^w/.test(String(n.id))&&n.title)?n.title:"Informazioni su Enzo";$(".ibh span",f.el).textContent=tt;f.el.setAttribute("aria-label",tt+". Trascina la barra del titolo per spostarla; usa i quadratini sui bordi per ridimensionarla.");$(".vc",f.el).innerHTML=clean(n.html);infoMeasure();if(os.fr.info&&os.fr.info.d)delete os.fr.info;frApply("info",false)}

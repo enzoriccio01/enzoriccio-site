@@ -1073,7 +1073,7 @@ var TOPS=[],NODES=[],PROJ=null,APPC={},dragT=0;
 function isFold(n){return!!n&&(n===PROJ||n.kids.length>0||n.kind==="folder")}
 function appFor(n){var a=APPC[n.id];if(!a){var f=isFold(n);a=APPC[n.id]={id:n.id,n:n.title,node:n,letter:(n.title[0]||"•").toUpperCase(),kind:f?"finder":"view",trashable:1,svg:f?fold:doc,w:f?660:560}}return a}
 function movable(n){return!!n&&n.mv===true&&!n.soon}
-function defParent(n){return n.op||(n.okids.length>0?PROJ:null)}
+function defParent(n){return n.op||((n.okids.length>0||n.pj)?PROJ:null)}
 function freeSlot(taken){var occ=(taken||[]).slice();APPS.forEach(function(a){if(os.trash.indexOf(a.id)>=0)return;occ.push(os.pos[a.id]||defPos(a.ix))});
  for(var k=0;k<120;k++){var p=defPos(k),ok=true;occ.forEach(function(q){if(Math.abs(q[0]-p[0])<40&&Math.abs(q[1]-p[1])<40)ok=false});if(ok)return p}return defPos(0)}
 function relayout(rebuild,quiet){var cur={},dk=[PROJ],ok=false;
@@ -1117,7 +1117,7 @@ function tryMove(ids,els,org,u){var fl=ids.filter(function(i){return movable(ALL
  ids.forEach(function(i,k){os.pos[i]=org[k];icons[i].style.left=org[k][0]+"px";icons[i].style.top=org[k][1]+"px"});moveItems(fl,d);return true}
 function moveMenu(n,ids){var r=[];if(!movable(n))return r;ids=ids&&ids.length?ids:[n.id];if(canDrop(n,"proj"))r.push({l:"Sposta in Progetti",a:function(){moveItems(ids,"proj")}});if(canDrop(n,"desk"))r.push({l:"Sposta sulla scrivania",a:function(){moveItems(ids,"desk")}});return r}
 function tidyAll(){closeMenu();var pre={};Object.keys(icons).forEach(function(i){var e=icons[i];if(e&&!e.classList.contains("gone"))pre[i]=[e.offsetLeft,e.offsetTop]});var ch=Object.keys(os.loc).length>0;os.loc={};os.pos={};framesReset();saveOS();setSel([]);relayout(true,true);fixPaths();alignIcons();Object.keys(icons).forEach(function(i){var e=icons[i],o=pre[i];if(!e||e.classList.contains("gone"))return;if(!o){if(!reduce)e.style.animation="pop .5s both";return}var tx=e.style.left,ty=e.style.top;e.style.transition="none";e.style.left=o[0]+"px";e.style.top=o[1]+"px";void e.offsetWidth;e.style.transition="";e.style.left=tx;e.style.top=ty});render();layout();if(ch)refreshFinders()}
-function boot(top){var ln=top.filter(function(n){return n.slug==="libri"})[0];top=top.filter(function(n){return n!==ln});LIBS=(ln?ln.kids:[]).map(function(k){var p=bookParse(k.html);p.id=k.id;p.title=k.title||"";return p});closeAll();Object.keys(byId).forEach(function(k){if(!SYS.some(function(s){return s.id===k}))delete byId[k]});SEL={};
+function boot(top){var ln=top.filter(function(n){return n.slug==="libri"})[0];top=top.filter(function(n){return n!==ln});var pn=top.filter(function(n){return n.slug==="progetti"})[0];if(pn){var at=top.indexOf(pn);pn.kids.forEach(function(k){k.pj=true});top=top.slice(0,at).concat(pn.kids,top.slice(at+1))}LIBS=(ln?ln.kids:[]).map(function(k){var p=bookParse(k.html);p.id=k.id;p.title=k.title||"";return p});closeAll();Object.keys(byId).forEach(function(k){if(!SYS.some(function(s){return s.id===k}))delete byId[k]});SEL={};
  TOPS=top;APPC={};DL=mkDL(top);NODES=[];(function walk(l,op){l.forEach(function(n){n.mv=true;n.op=op;n.okids=n.kids.slice();NODES.push(n);walk(n.kids,n)})})(top,null);
  PROJ={id:"proj",slug:"progetti",title:"Progetti",html:"",meta:"",kids:[],txt:"",media:[],kind:"folder",parent:null};ALL.proj=PROJ;
  ROOT={id:"root",slug:"",title:"Scrivania",html:"",meta:"",kids:[],txt:"",media:[],kind:"folder",parent:null};

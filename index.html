@@ -447,7 +447,12 @@ html.wl #desk .ic,html.wl #ib,html.wl #ph{opacity:0!important;animation:none!imp
 .rdr{height:min(68vh,640px)}
 .lrd{flex:1;min-width:0}
 .lbw .nt{height:min(70vh,640px)}
-.rdc{padding:28px 24px;display:flex;flex-direction:column;gap:8px;align-items:flex-start;color:var(--ink)}
+.rdc{padding:24px 28px;display:flex;flex-direction:column;gap:10px;align-items:flex-start;color:var(--ink);overflow:auto;flex:1;min-height:0;width:100%;box-sizing:border-box}
+.rdh{display:flex;gap:16px;align-items:flex-start}
+.rdh img{width:84px;aspect-ratio:2/3;object-fit:cover;border-radius:3px;box-shadow:0 3px 10px rgba(0,0,0,.35);flex:none}
+.rdh b{display:block;font-size:1.15em;line-height:1.3}
+.rdx{max-width:62ch;font-size:1em;line-height:1.65;user-select:text;-webkit-user-select:text}
+.rdx p{margin:0 0 12px}
 .rdc span,.rdc p{color:var(--mut2);margin:0}
 .rdc .btn{margin-top:6px;text-decoration:none;display:inline-block}
 .rdrb{flex:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 14px;border-bottom:1px solid var(--line);background:var(--tb);font-size:.8em;color:var(--mut2)}
@@ -486,7 +491,7 @@ var SAMPLE=[
 F("Drammaturgia",[P("Il coraggio di essere / R. Giordano","2026"),P("Untitled / Royal Divorce","In corso"),P("Un corpo che non ho inventato io","2025"),P("ab-ovo","2024"),P("cassandra (oggi sarò colpita a morte)","2024"),P("Mater Familias","2023")]),
 F("Curatela",[P("404 Not-Føunded Territories","2026"),P("Miquela O’Campo Kollektiv Oozing Archive","2026")]),
 F("Regia & Sound",[P("GAIA","2024"),P("Tema 2023","2023"),P("NSFW 1:1","In corso")]),
-{slug:"libri",title:"Libri",meta:"",html:"",kids:[{slug:"i-benandanti",title:"I benandanti",meta:"",kids:[],html:"<p>Carlo Ginzburg</p><p>Sto leggendo</p><p><a href='https://archive.org/details/ginzburg-c.-i-benandanti.-stregoneria-e-culti-agrari-tra-cinquecento-seicento-ocr-1966'>Leggi</a></p>"}]},
+{slug:"libri",title:"Libri",meta:"",html:"",kids:[{slug:"i-benandanti",title:"I benandanti",meta:"",kids:[],html:"<p>Carlo Ginzburg</p><p>Sto leggendo</p><p><a href='https://archive.org/details/ginzburg-c.-i-benandanti.-stregoneria-e-culti-agrari-tra-cinquecento-seicento-ocr-1966'>Leggi</a></p>"},{slug:"nota",title:"Nota di lettura",meta:"",kids:[],html:"<p>Una tua nota</p><p>Qui puoi scrivere una sinossi, la trama o i passaggi che ti hanno colpito: il testo si legge direttamente nell’app, anche senza un PDF.</p><p>Ogni paragrafo diventa un capoverso.</p>"}]},
 {slug:"info",title:"Info.txt",meta:"",kids:[],html:"<p>Dramaturg e Graphic Designer, lavoro tra Napoli e Venezia intrecciando ricerca performativa, scrittura critica e visual design. Mi sono formato in Teatro e Arti performative allo IUAV di Venezia e in Grafica all’Accademia ILAS di Napoli.</p><p><a href='mailto:"+MAIL+"'>Email</a></p>"}
 ];
 var ALL={},SC=0,TREE=[],INFO=null,ROOT=null,LIBS=[];
@@ -1270,13 +1275,16 @@ function libriRender(id){var st=S.win[id];if(!st)return;var w=st.el,l=$(".nl",w)
  var cur=LIBS.filter(function(x){return x.id===st.cur})[0]||LIBS[0];
  LIBS.forEach(function(b){var r=mk("div","ni"+(b===cur?" s":""),"<div></div><small></small>");r.tabIndex=0;r.setAttribute("role","button");r.setAttribute("aria-label",b.title+(b.author?", "+b.author:"")+(b.reading?", sto leggendo":""));r.firstChild.textContent=b.title;var sm=r.lastChild;sm.textContent=b.author||"";sm.hidden=!b.author;if(b.reading){var tg=document.createElement("em");tg.className="bkt";tg.textContent="Sto leggendo";r.appendChild(tg)}
   r.onclick=function(){if(st.cur===b.id)return;st.cur=b.id;libriRender(id)};r.onkeydown=function(ev){if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();r.click()}};l.appendChild(r)});
- readerFill(m,cur.title,cur.src,cur.author)}
-function readerFill(box,title,src,author){box.innerHTML="";
+ readerFill(m,cur.title,cur.src,cur.author,cur.rest,cur.cover)}
+function readerFill(box,title,src,author,rest,cover){box.innerHTML="";
  if(src&&(src.t==="ia"||src.t==="pdf")){var ia=src.t==="ia",url=ia?"https://archive.org/details/"+encodeURIComponent(src.id):src.url,bar=document.createElement("div");bar.className="rdrb";var sm=document.createElement("small");sm.textContent=ia?"Lettore di Internet Archive. Per i libri in prestito serve un account gratuito.":"Documento PDF.";var a=document.createElement("a");a.className="rdro";a.target="_blank";a.rel="noopener";a.href=url;a.textContent=ia?"Apri su archive.org":"Apri in una scheda";bar.appendChild(sm);bar.appendChild(a);
   var f=document.createElement("iframe");f.className="rdrf";f.title="Lettore: "+title;f.setAttribute("allow","fullscreen");if(ia)f.setAttribute("sandbox","allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms allow-fullscreen");f.src=ia?"https://archive.org/embed/"+encodeURIComponent(src.id):src.url;box.appendChild(bar);box.appendChild(f);return}
- var c=document.createElement("div");c.className="rdc";var h=document.createElement("b");h.textContent=title;c.appendChild(h);if(author){var p=document.createElement("span");p.textContent="di "+author;c.appendChild(p)}
- if(src&&src.t==="ext"){var q=document.createElement("p");q.textContent="Questo libro si legge su un altro sito.";var a2=document.createElement("a");a2.className="btn";a2.target="_blank";a2.rel="noopener";a2.href=src.url;a2.textContent="Apri in una nuova scheda";c.appendChild(q);c.appendChild(a2)}
- else{var q2=document.createElement("p");q2.textContent="Nessun testo da leggere online.";c.appendChild(q2)}
+ var c=document.createElement("div");c.className="rdc";var hd=document.createElement("div");hd.className="rdh";
+ if(cover&&/^https?:\/\//i.test(cover)){var im=document.createElement("img");im.alt="Copertina di "+title;im.draggable=false;im.onerror=function(){im.remove()};im.src=cover;hd.appendChild(im)}
+ var ht=document.createElement("div");var h=document.createElement("b");h.textContent=title;ht.appendChild(h);if(author){var p=document.createElement("span");p.textContent="di "+author;ht.appendChild(p)}hd.appendChild(ht);c.appendChild(hd);
+ var tx=document.createElement("div");tx.className="txt rdx";tx.innerHTML=rest||"";var has=!!tx.textContent.trim()||!!tx.querySelector("img");if(has)c.appendChild(tx);
+ if(src&&src.t==="ext"){var q=document.createElement("p");q.textContent="Il libro intero si legge su un altro sito.";var a2=document.createElement("a");a2.className="btn";a2.target="_blank";a2.rel="noopener";a2.href=src.url;a2.textContent="Apri in una nuova scheda";c.appendChild(q);c.appendChild(a2)}
+ else if(!has){var q2=document.createElement("p");q2.textContent="Nessun testo da leggere online.";c.appendChild(q2)}
  box.appendChild(c)}
 function readerSet(w,a){readerFill($(".rdr",w),a.n,a.src)}
 function openReader(title,src){byId.rdr={id:"rdr",n:title||"Lettore",kind:"reader",w:820,letter:"L",src:src};var w=S.win.rdr;

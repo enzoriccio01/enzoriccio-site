@@ -43,12 +43,12 @@ body{background:radial-gradient(circle at 70% 20%,var(--red2),#0b0b0b 60%);color
 #mn .sep{height:1px;background:var(--bd);margin:4px 6px}
 #dockwrap{position:fixed;bottom:calc(10px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);width:max-content;max-width:calc(100vw - 16px);z-index:9998;transition:transform .2s cubic-bezier(.2,.8,.2,1)}
 #dockwrap.h{transform:translateX(-50%) translateY(calc(100% + 40px))}
-#dockbg{position:absolute;left:0;right:0;bottom:0;height:60px;background:var(--dockbg);backdrop-filter:blur(16px);border:1px solid var(--bd2);border-radius:18px}
-#dock{position:relative;display:flex;align-items:flex-end;gap:10px;padding:8px 12px;height:60px}
+#dockbg{position:absolute;left:0;right:0;bottom:0;height:74px;background:var(--dockbg);backdrop-filter:blur(16px);border:1px solid var(--bd2);border-radius:18px}
+#dock{position:relative;display:flex;align-items:flex-end;gap:14px;padding:13px 18px;height:74px}
 #dockwrap.sc{width:calc(100vw - 16px)}
-#dockwrap.sc #dock{height:60px;padding:8px 20px;border-radius:18px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior:contain;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 16px,#000 calc(100% - 16px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 16px,#000 calc(100% - 16px),transparent 100%)}
+#dockwrap.sc #dock{height:74px;padding:13px 22px;border-radius:28px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior:contain;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 16px,#000 calc(100% - 16px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 16px,#000 calc(100% - 16px),transparent 100%)}
 #dockwrap.sc #dock::-webkit-scrollbar{display:none}
-#dock .dk{flex:none;width:44px;height:44px;border-radius:11px;background:linear-gradient(#2f8ff7,#0b4fb3);display:grid;place-items:center;cursor:pointer;font-weight:700;position:relative;outline:none;color:#fff}
+#dock .dk{flex:none;width:48px;height:48px;border-radius:12px;background:linear-gradient(#2f8ff7,#0b4fb3);display:grid;place-items:center;cursor:pointer;font-weight:700;position:relative;outline:none;color:#fff}
 #dock .dk.alt{background:linear-gradient(#2c2c2c,#000);border:1px solid #444}
 #dock .dk.mini{background:linear-gradient(#1b1b1b,#000);border:1px solid var(--red);animation:dkin .28s ease-out}
 #dock .dk.mini::before{content:"";position:absolute;left:12%;right:12%;top:12%;height:9%;border-radius:2px;background:var(--red)}
@@ -57,7 +57,7 @@ body{background:radial-gradient(circle at 70% 20%,var(--red2),#0b0b0b 60%);color
 #dock .dk.tr svg{width:100%;height:100%;display:block;pointer-events:none}
 html[data-theme=light] #dock .dk.tr svg{filter:drop-shadow(0 1px 2px rgba(0,0,0,.4))}
 #dock .dk.tr.hot svg{filter:drop-shadow(0 0 7px var(--red))}
-#dock .dsep{flex:none;width:1px;height:44px;background:var(--bd2);margin:0 3px;align-self:flex-end}
+#dock .dsep{flex:none;width:1px;height:48px;background:rgba(127,127,127,.45);margin:0 4px;align-self:flex-end}
 @keyframes dkin{from{transform:scale(.3);opacity:0}}
 #dock .dk:focus-visible{box-shadow:0 0 0 2px #fff}
 #dock .dk.on::after{content:"";position:absolute;bottom:-7px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--ink)}
@@ -479,8 +479,12 @@ html.wl #desk .ic,html.wl #ib,html.wl #ph{opacity:0!important;animation:none!imp
 .fbar .vs button{height:28px;border-radius:0}
 #mn,#spb,#stk{border-radius:12px;-webkit-backdrop-filter:blur(var(--gb)) saturate(1.5);backdrop-filter:blur(var(--gb)) saturate(1.5)}
 #mn{background:var(--menu);background:color-mix(in srgb,var(--menu) calc(var(--lg)*100%),transparent)}
-#dockbg{border-radius:22px;background:var(--dockbg);-webkit-backdrop-filter:blur(var(--gb)) saturate(1.6);backdrop-filter:blur(var(--gb)) saturate(1.6);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 10px 30px rgba(0,0,0,.3)}
-#dockwrap.sc #dock{border-radius:22px}
+#dockbg{border-radius:28px;background:var(--dockbg);-webkit-backdrop-filter:blur(calc(var(--gb) + 10px)) saturate(1.9) brightness(1.05);backdrop-filter:blur(calc(var(--gb) + 10px)) saturate(1.9) brightness(1.05);border:1px solid rgba(255,255,255,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -1px 0 rgba(255,255,255,.08),0 12px 34px rgba(0,0,0,.3)}
+html[data-theme=light] #dockbg{border-color:rgba(255,255,255,.75)}
+html[data-theme=light]{--dockbg:rgba(255,255,255,.42)}
+html:not([data-theme=light]){--dockbg:rgba(255,255,255,.14)}
+html[data-contrast=high] #dockbg{border-color:var(--bd2)}
+#dockwrap.sc #dock{border-radius:28px}
 #dock .dk{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -6px 10px rgba(0,0,0,.18),0 3px 8px rgba(0,0,0,.35)}
 html:has(.win.max) #bar{background:var(--tb);-webkit-backdrop-filter:none;backdrop-filter:none}
 .lgn{margin:6px 0 0;font-size:.8em;color:var(--mut)}
@@ -549,7 +553,7 @@ function clean(h){var d=new DOMParser().parseFromString("<body>"+h+"</body>","te
   if(e.tagName==="IMG")e.loading="lazy";if(e.tagName==="AUDIO"||e.tagName==="VIDEO")e.controls=true});
  return d.body.innerHTML}
 var MANIFESTO="<h3>Informazioni su Finder</h3><p>Il drammaturg non scrive per il palco: tiene insieme. Mette in relazione corpi, testi, immagini e spettatori finché qualcosa si muove tra loro.</p><p>Ogni cartella di questo archivio è un luogo di lavoro, non una vetrina: dentro ci sono tracce, versioni, scarti, progetti ancora in corso.</p><p>Progettare un’immagine e costruire una scena sono lo stesso gesto: decidere cosa mostrare, cosa trattenere, cosa lasciare all’altro.</p>";
-var BASE=44,GAP=10,MAXS=1.9,SIG=72;
+var BASE=48,GAP=14,MAXS=1.8,SIG=76;
 var ICW={s:48,m:64,l:84},FZ={s:.9,m:1,l:1.15};
 var $=function(s,r){return(r||document).querySelector(s)};
 var desk=$("#desk"),wrap=$("#dockwrap"),dock=$("#dock"),bar=$("#bar"),mbs=$("#mbs"),tip=$("#tip"),mn=$("#mn"),mq=$("#mq"),root=document.documentElement;
@@ -591,11 +595,11 @@ function topWin(){var best=null,bz=-1;liveIds().forEach(function(id){var w=S.win
 var APPN={libri:"Libri",reader:"Lettore",cal:"Calendario",mail:"Mail",prev:"Anteprima",blog:"Diario di bordo",settings:"Impostazioni di Sistema",infos:"Informazioni e assistenza",contacts:"Contatti"};
 function curApp(){var a=S.front&&byId[S.front],k=a&&a.kind;return k==="note"?"Note":((a&&a.tr)||inTr(S.win[S.front]))?"Cestino":APPN[k]||"Finder"}
 /* ---------- impostazioni persistenti ---------- */
-var OK="archivio.os.v1",os={fr:{},loc:{},pos:{},trash:[],tags:{},view:"icons",group:"none",theme:"light",themeSet:false,contrast:"normal",isz:"m",fsz:"m",lg:.5,lgSet:false,dock:["fin","prev","note","cal","mail"]};
+var OK="archivio.os.v1",os={fr:{},loc:{},pos:{},trash:[],tags:{},view:"cols",viewSet:false,group:"none",theme:"light",themeSet:false,contrast:"normal",isz:"m",fsz:"m",lg:.5,lgSet:false,dock:["fin","prev","note","cal","mail"]};
 try{var rw=localStorage.getItem(OK);if(rw){var q=JSON.parse(rw);if(q&&typeof q==="object"){
  ["dock"].forEach(function(k){if(Array.isArray(q[k]))os[k]=q[k].filter(function(x){return typeof x==="string"})});
  if(q.fr&&typeof q.fr==="object")Object.keys(q.fr).forEach(function(k){var v=q.fr[k];if(v&&[v.x,v.y,v.w,v.h].every(function(n){return typeof n==="number"&&isFinite(n)}))os.fr[k]={x:v.x,y:v.y,w:v.w,h:v.h}});if(q.loc&&typeof q.loc==="object")Object.keys(q.loc).forEach(function(k){if(typeof q.loc[k]==="string")os.loc[k]=q.loc[k]});if(q.pos&&typeof q.pos==="object")os.pos=q.pos;if(Array.isArray(q.trash))os.trash=q.trash.filter(function(i){return typeof i==="string"});
- if(q.lgSet===true&&typeof q.lg==="number"&&q.lg>=0&&q.lg<=1){os.lg=q.lg;os.lgSet=true}if(q.tags&&typeof q.tags==="object")os.tags=q.tags;if(["icons","list","cols","gal"].indexOf(q.view)>=0)os.view=q.view;if(["none","name","kind","size","tag"].indexOf(q.group)>=0)os.group=q.group;if(q.themeSet&&(q.theme==="light"||q.theme==="dark")){os.theme=q.theme;os.themeSet=true}if(q.contrast==="high")os.contrast="high";if(ICW[q.isz])os.isz=q.isz;if(FZ[q.fsz])os.fsz=q.fsz}}}catch(e){}
+ if(q.lgSet===true&&typeof q.lg==="number"&&q.lg>=0&&q.lg<=1){os.lg=q.lg;os.lgSet=true}if(q.tags&&typeof q.tags==="object")os.tags=q.tags;if(q.viewSet===true&&["icons","list","cols","gal"].indexOf(q.view)>=0){os.viewSet=true;os.view=q.view}if(["none","name","kind","size","tag"].indexOf(q.group)>=0)os.group=q.group;if(q.themeSet&&(q.theme==="light"||q.theme==="dark")){os.theme=q.theme;os.themeSet=true}if(q.contrast==="high")os.contrast="high";if(ICW[q.isz])os.isz=q.isz;if(FZ[q.fsz])os.fsz=q.fsz}}}catch(e){}
 function saveOS(){try{var c={};Object.keys(os).forEach(function(k){c[k]=os[k]});c.fr={};Object.keys(os.fr).forEach(function(k){if(!(os.fr[k]&&os.fr[k].d))c.fr[k]=os.fr[k]});localStorage.setItem(OK,JSON.stringify(c))}catch(e){}}
 /* ---------- note: dati (persistono per tutta la sessione e oltre) ---------- */
 var KEY="archivio.note.v1",store={notes:[],sel:null},tmr=0;
@@ -706,7 +710,7 @@ function ctxMenu(items,x,y,from){closeMenu(true);M.ctx=true;M.from=from||null;sh
 function itemMenu(d,x,y,from){var it=[{l:"Apri",a:d.open}];(d.moves||[]).forEach(function(m){it.push({l:m.l,a:m.a})});(d.extra||[]).forEach(function(m){it.push(m)});it.push({l:"Sposta nel cestino",d:!d.trash,a:d.trash},{sep:1},{tags:d.id});ctxMenu(it,x,y,from)}
 function viewItems(id){var st=S.win[id],gOK=st.view==="icons"||st.view==="list"||st.view==="cols";
  return VIEWS.map(function(v){return{l:v[1],c:st.view===v[0],a:function(){setView(id,v[0])}}}).concat([{sep:1}],GROUPS.map(function(g){return{l:(g[0]==="none"?"Raggruppa: ":"")+g[1],c:gOK&&st.group===g[0],d:!gOK,a:function(){setGroup(id,g[0])}}}))}
-function setView(id,v){var st=S.win[id];st.view=v;os.view=v;saveOS();fRender(id)}
+function setView(id,v){var st=S.win[id];st.view=v;os.view=v;os.viewSet=true;saveOS();fRender(id)}
 function setGroup(id,g){var st=S.win[id];st.group=g;os.group=g;saveOS();fRender(id)}
 function finderInit(id){var st=S.win[id],a=byId[id],w=st.el;st.path=[a.node];st.fwd=[];st.view=os.view;st.group=os.group;st.sel=null;st.last=null;st.cw={};st.lw=[0,0,0,0];
  if($(".fsp",w)){var sv=mk("button","sv","Ripristina tutto");sv.type="button";sv.hidden=!a.tr;sv.onclick=function(){trRestore(id)};$(".fsp",w).after(sv);$(".fbody",w).addEventListener("click",function(e){if(!inTr(st)||e.target.closest("[data-nid]")||st.view==="cols"||st.view==="gal")return;st.msel=[];st.sel=null;Array.prototype.forEach.call(w.querySelectorAll("[data-nid]"),function(x){x.classList.remove("s")});svSync(id)})}
@@ -1189,7 +1193,7 @@ function targets(its){var n=its.length,i,t,cs=[];if(!ptr||!magOk()||n<2){its.for
  var x=ptr.x;if(x<=cs[0])t=(x-cs[0])/(cs[1]-cs[0]);else if(x>=cs[n-1])t=n-1+(x-cs[n-1])/(cs[n-1]-cs[n-2]);else{for(i=0;i<n-1;i++)if(x<=cs[i+1]){t=i+(x-cs[i])/(cs[i+1]-cs[i]);break}}
  for(i=0;i<n;i++){var d=(t-i)*(BASE+GAP);its[i]._g=1+(MAXS-1)*Math.exp(-(d*d)/(SIG*SIG))}}
 function frame(){raf=0;var its=dkItems();targets(its);var mv=false,k=reduce?1:.3;
- for(var i=0;i<its.length;i++){var e=its[i],c=e._c||1,g=e._g||1;c+=(g-c)*k;if(Math.abs(g-c)<.002)c=g;else mv=true;if(c!==e._c){e._c=c;var s=BASE*c,st=e.style;st.width=st.height=s+"px";st.fontSize=14*c+"px";st.borderRadius=11*c+"px"}}
+ for(var i=0;i<its.length;i++){var e=its[i],c=e._c||1,g=e._g||1;c+=(g-c)*k;if(Math.abs(g-c)<.002)c=g;else mv=true;if(c!==e._c){e._c=c;var s=BASE*c,st=e.style;st.width=st.height=s+"px";st.fontSize=14*c+"px";st.borderRadius=12*c+"px"}}
  var hv=null;if(ptr&&magOk()){var el=document.elementFromPoint(ptr.x,ptr.y);hv=el&&el.closest?el.closest("#dock .dk"):null}
  if(hv!==hovK){hovK=hv;hideTip();if(hv)tipT=setTimeout(function(){if(hovK===hv)showTip(hv)},550)}
  posTip();if(mv||(ptr&&magOk()))raf=requestAnimationFrame(frame)}

@@ -462,6 +462,41 @@ html.wl #desk .ic,html.wl #ib,html.wl #ph{opacity:0!important;animation:none!imp
 .win.rz>.rdr,.win.max>.rdr{flex:1;min-height:0;height:auto}
 .ni .bkt{display:inline-block;margin-top:3px;background:var(--red2);color:#fff;font-style:normal;font-size:.68em;padding:2px 8px;border-radius:10px}
 .ni.s .bkt{background:#fff;color:var(--red2)}
+
+/* macOS 27 Golden Gate: vetro uniforme */
+:root{--lg:.78;--gb:calc(14px + (1 - var(--lg))*26px);--gp:calc(30% + var(--lg)*70%);--wr:16px}
+.win{background:var(--win);background:color-mix(in srgb,var(--win) var(--gp),transparent);-webkit-backdrop-filter:blur(var(--gb)) saturate(1.5);backdrop-filter:blur(var(--gb)) saturate(1.5);border-radius:var(--wr);border:1px solid var(--bd);box-shadow:0 0 0 .5px rgba(0,0,0,.25),0 10px 28px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.14)}
+.win.act{box-shadow:0 0 0 .5px rgba(0,0,0,.35),0 28px 70px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.2)}
+.win:not(.act) .tb{opacity:.92}
+.win.max{border-radius:0}
+.tb{background:var(--tb);background:color-mix(in srgb,var(--tb) var(--gp),transparent);height:36px;border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+.fside{background:var(--hov);background:color-mix(in srgb,var(--hov) calc(var(--lg)*70%),transparent);-webkit-backdrop-filter:blur(var(--gb));backdrop-filter:blur(var(--gb));padding:10px 8px 12px}
+.fsi{border-radius:9px;padding:5px 9px}
+.fsi.on{background:color-mix(in srgb,var(--red) 22%,transparent);font-weight:600}
+.fbar{padding:7px 12px;background:color-mix(in srgb,var(--tb) var(--gp),transparent)}
+.fbar button,.pvb button{height:28px;min-width:34px;border-radius:14px;background:color-mix(in srgb,var(--ctl) var(--gp),transparent);border:1px solid color-mix(in srgb,var(--bd) 60%,transparent);box-shadow:inset 0 1px 0 rgba(255,255,255,.1)}
+.vs{border-radius:14px}
+.fbar .vs button{height:28px;border-radius:0}
+#mn,#spb,#stk{border-radius:12px;-webkit-backdrop-filter:blur(var(--gb)) saturate(1.5);backdrop-filter:blur(var(--gb)) saturate(1.5)}
+#mn{background:var(--menu);background:color-mix(in srgb,var(--menu) calc(var(--lg)*100%),transparent)}
+#dockbg{border-radius:22px;background:var(--dockbg);-webkit-backdrop-filter:blur(var(--gb)) saturate(1.6);backdrop-filter:blur(var(--gb)) saturate(1.6);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 10px 30px rgba(0,0,0,.3)}
+#dockwrap.sc #dock{border-radius:22px}
+#dock .dk{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -6px 10px rgba(0,0,0,.18),0 3px 8px rgba(0,0,0,.35)}
+html:has(.win.max) #bar{background:var(--tb);-webkit-backdrop-filter:none;backdrop-filter:none}
+.lgn{margin:6px 0 0;font-size:.8em;color:var(--mut)}
+html[data-contrast=high] .win,html[data-contrast=high] .fside,html[data-contrast=high] #dockbg{-webkit-backdrop-filter:none;backdrop-filter:none}
+html[data-contrast=high] .win{border-radius:var(--wr)}
+
+/* Spotlight: Liquid Glass */
+#sp{background:rgba(0,0,0,.22)}
+#spb{background:var(--menu);background:color-mix(in srgb,var(--menu) var(--gp),transparent);-webkit-backdrop-filter:blur(calc(var(--gb) + 8px)) saturate(1.7);backdrop-filter:blur(calc(var(--gb) + 8px)) saturate(1.7);border:1px solid color-mix(in srgb,var(--bd2) 70%,transparent);border-radius:28px;box-shadow:0 0 0 .5px rgba(0,0,0,.3),0 30px 80px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.28),inset 0 -1px 0 rgba(255,255,255,.06)}
+#spb .in{padding:14px 22px;gap:12px}
+#spb .in svg{width:22px;height:22px}
+#spr{border-top:1px solid color-mix(in srgb,var(--line) 70%,transparent);padding:8px}
+#spr .it{border-radius:16px;padding:9px 14px}
+#spr .none{padding:18px}
+html[data-contrast=high] #sp{-webkit-backdrop-filter:none;backdrop-filter:none}
+html[data-contrast=high] #spb{-webkit-backdrop-filter:none;backdrop-filter:none}
 </style>
 <script>window.ARCHIVIO_SOURCE={wp:"wpcom:enzoricciodotcom.wordpress.com",label:"enzoriccio.com",exclude:["home"]};document.documentElement.className+=" wl";</script></head>
 <body>
@@ -556,11 +591,11 @@ function topWin(){var best=null,bz=-1;liveIds().forEach(function(id){var w=S.win
 var APPN={libri:"Libri",reader:"Lettore",cal:"Calendario",mail:"Mail",prev:"Anteprima",blog:"Diario di bordo",settings:"Impostazioni di Sistema",infos:"Informazioni e assistenza",contacts:"Contatti"};
 function curApp(){var a=S.front&&byId[S.front],k=a&&a.kind;return k==="note"?"Note":((a&&a.tr)||inTr(S.win[S.front]))?"Cestino":APPN[k]||"Finder"}
 /* ---------- impostazioni persistenti ---------- */
-var OK="archivio.os.v1",os={fr:{},loc:{},pos:{},trash:[],tags:{},view:"icons",group:"none",theme:"light",themeSet:false,contrast:"normal",isz:"m",fsz:"m",dock:["fin","prev","note","cal","mail"]};
+var OK="archivio.os.v1",os={fr:{},loc:{},pos:{},trash:[],tags:{},view:"icons",group:"none",theme:"light",themeSet:false,contrast:"normal",isz:"m",fsz:"m",lg:.78,dock:["fin","prev","note","cal","mail"]};
 try{var rw=localStorage.getItem(OK);if(rw){var q=JSON.parse(rw);if(q&&typeof q==="object"){
  ["dock"].forEach(function(k){if(Array.isArray(q[k]))os[k]=q[k].filter(function(x){return typeof x==="string"})});
  if(q.fr&&typeof q.fr==="object")Object.keys(q.fr).forEach(function(k){var v=q.fr[k];if(v&&[v.x,v.y,v.w,v.h].every(function(n){return typeof n==="number"&&isFinite(n)}))os.fr[k]={x:v.x,y:v.y,w:v.w,h:v.h}});if(q.loc&&typeof q.loc==="object")Object.keys(q.loc).forEach(function(k){if(typeof q.loc[k]==="string")os.loc[k]=q.loc[k]});if(q.pos&&typeof q.pos==="object")os.pos=q.pos;if(Array.isArray(q.trash))os.trash=q.trash.filter(function(i){return typeof i==="string"});
- if(q.tags&&typeof q.tags==="object")os.tags=q.tags;if(["icons","list","cols","gal"].indexOf(q.view)>=0)os.view=q.view;if(["none","name","kind","size","tag"].indexOf(q.group)>=0)os.group=q.group;if(q.themeSet&&(q.theme==="light"||q.theme==="dark")){os.theme=q.theme;os.themeSet=true}if(q.contrast==="high")os.contrast="high";if(ICW[q.isz])os.isz=q.isz;if(FZ[q.fsz])os.fsz=q.fsz}}}catch(e){}
+ if(typeof q.lg==="number"&&q.lg>=0&&q.lg<=1)os.lg=q.lg;if(q.tags&&typeof q.tags==="object")os.tags=q.tags;if(["icons","list","cols","gal"].indexOf(q.view)>=0)os.view=q.view;if(["none","name","kind","size","tag"].indexOf(q.group)>=0)os.group=q.group;if(q.themeSet&&(q.theme==="light"||q.theme==="dark")){os.theme=q.theme;os.themeSet=true}if(q.contrast==="high")os.contrast="high";if(ICW[q.isz])os.isz=q.isz;if(FZ[q.fsz])os.fsz=q.fsz}}}catch(e){}
 function saveOS(){try{var c={};Object.keys(os).forEach(function(k){c[k]=os[k]});c.fr={};Object.keys(os.fr).forEach(function(k){if(!(os.fr[k]&&os.fr[k].d))c.fr[k]=os.fr[k]});localStorage.setItem(OK,JSON.stringify(c))}catch(e){}}
 /* ---------- note: dati (persistono per tutta la sessione e oltre) ---------- */
 var KEY="archivio.note.v1",store={notes:[],sel:null},tmr=0;
@@ -800,7 +835,8 @@ var SVGQ={
  contrast:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17a8.5 8.5 0 0 0 0-17z" fill="currentColor"/></svg>'};
 var qs=$("#qs"),qt=$("#qt"),qc=$("#qc");
 qs.innerHTML=SVGQ.search;qc.innerHTML=SVGQ.contrast;
-function applySettings(){root.dataset.theme=os.theme;root.dataset.contrast=os.contrast;root.style.setProperty("--icw",ICW[os.isz]+"px");root.style.setProperty("--fz",FZ[os.fsz]);
+function applyLg(){var rt=false;try{rt=matchMedia("(prefers-reduced-transparency: reduce)").matches}catch(e){}root.style.setProperty("--lg",os.contrast==="high"||rt?1:os.lg)}
+function applySettings(){applyLg();root.dataset.theme=os.theme;root.dataset.contrast=os.contrast;root.style.setProperty("--icw",ICW[os.isz]+"px");root.style.setProperty("--fz",FZ[os.fsz]);
  qt.innerHTML=os.theme==="light"?SVGQ.moon:SVGQ.sun;var tl=os.theme==="light"?"Passa al tema scuro":"Passa al tema chiaro";qt.title=tl;qt.setAttribute("aria-label",tl);
  var cl=os.contrast==="high"?"Contrasto normale":"Contrasto elevato";qc.title=cl;qc.setAttribute("aria-label",cl);qc.classList.toggle("on",os.contrast==="high");qc.setAttribute("aria-pressed",os.contrast==="high"?"true":"false");
  qs.title="Cerca";qs.setAttribute("aria-label","Cerca");
@@ -813,10 +849,14 @@ function setUI(){var w=S.win.set;if(!w)return;var box=$(".set",w.el);
   box.setAttribute("data-x","1");
   G.forEach(function(g){var h=document.createElement("h4");h.textContent=g[0];box.appendChild(h);var s=document.createElement("div");s.className="seg";s.setAttribute("role","group");s.setAttribute("aria-label",g[0]);
    g[2].forEach(function(o){var b=document.createElement("button");b.type="button";b.textContent=o[1];b.dataset.k=g[1];b.dataset.v=o[0];b.onclick=function(){setOpt(g[1],o[0])};s.appendChild(b)});box.appendChild(s)});
+  (function(){var h=document.createElement("h4");h.textContent="Liquid Glass";box.appendChild(h);var d=document.createElement("div");d.className="sl";var r=document.createElement("input");r.type="range";r.min=0;r.max=1;r.step=.01;r.value=os.lg;r.dataset.k="lg";r.setAttribute("aria-label","Liquid Glass: da trasparente a opaco");
+   function vt(){r.setAttribute("aria-valuetext",Math.round(+r.value*100)+"% opaco")}vt();r.oninput=function(){os.lg=+r.value;vt();saveOS();applyLg()};d.appendChild(r);var l=document.createElement("div");l.className="stk";
+   [["Trasparente",0],["Opaco",1]].forEach(function(o){var s=document.createElement("span");s.textContent=o[0];s.onclick=function(){r.value=o[1];r.oninput()};l.appendChild(s)});d.appendChild(l);var n=document.createElement("p");n.className="lgn";n.textContent="Con contrasto elevato o trasparenza ridotta del sistema il vetro resta opaco.";d.appendChild(n);box.appendChild(d)})();
   SL.forEach(function(g){var h=document.createElement("h4");h.textContent=g[0];box.appendChild(h);var d=document.createElement("div");d.className="sl";var r=document.createElement("input");r.type="range";r.min=0;r.max=2;r.step=.01;r.dataset.k=g[1];r.setAttribute("aria-label",g[0]);
    r.oninput=function(){var v=g[2][Math.round(+r.value)][0];if(os[g[1]]!==v)setOpt(g[1],v)};r.onchange=function(){var from=+r.value,to=Math.round(from),t0=performance.now();function st(n){var p=Math.min(1,(n-t0)/160);r.value=from+(to-from)*(1-Math.pow(1-p,3));if(p<1)requestAnimationFrame(st)}if(from!==to)requestAnimationFrame(st)};d.appendChild(r);var l=document.createElement("div");l.className="stk";
    g[2].forEach(function(o,i){var s=document.createElement("span");s.textContent=o[1];s.dataset.k=g[1];s.dataset.v=o[0];s.onclick=function(){r.value=i;setOpt(g[1],o[0])};l.appendChild(s)});d.appendChild(l);box.appendChild(d)});setExtra(box)}
  Array.prototype.forEach.call(box.querySelectorAll("button[data-k]"),function(b){b.setAttribute("aria-pressed",os[b.dataset.k]===b.dataset.v?"true":"false")});
+ var lr=box.querySelector('input[data-k="lg"]');if(lr&&+lr.value!==os.lg)lr.value=os.lg;
  SL.forEach(function(g){var r=box.querySelector('input[data-k="'+g[1]+'"]');var ix=g[2].map(function(o){return o[0]}).indexOf(os[g[1]]);if(Math.round(+r.value)!==ix)r.value=ix;r.setAttribute("aria-valuetext",g[2][Math.round(+r.value)][1]);Array.prototype.forEach.call(box.querySelectorAll('.stk span[data-k="'+g[1]+'"]'),function(s){s.classList.toggle("on",s.dataset.v===os[g[1]])})})}
 
 function setExtra(box){

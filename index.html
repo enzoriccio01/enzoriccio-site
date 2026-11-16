@@ -874,6 +874,8 @@ html[data-theme=light] #pglig path{stroke:#111}
 #bar{min-height:46px;padding-top:12px}
 #pgcs{top:54px}
 @media(max-width:640px){#pgcs{top:54px}}
+html.wl #pgcs,html.wl #pg{opacity:0!important;visibility:hidden}
+#pgcs,#pg{transition:opacity .4s}
 </style>
 <script>window.ARCHIVIO_SOURCE={wp:"wpcom:enzoricciodotcom.wordpress.com",label:"enzoriccio.com",exclude:["home"]};document.documentElement.className+=" wl";</script></head>
 <body>
@@ -1266,7 +1268,7 @@ function pgReset(cb){var tok=++pgTok,rest=pgCards.slice(1);rest.forEach(pgDrop);
 function pgX(c){}
 function pgMark(){Array.prototype.forEach.call(document.querySelectorAll(".pgnav .pgi[data-id]"),function(b){var on=b.dataset.id===pgOpen;b.classList.toggle("on",on);if(on)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")})}
 function pgNav(){var l=$("#lg");if(!l||l.dataset.w)return;l.dataset.w=1;l.onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();l.click()}};l.onclick=function(){if(String(getSelection()).length)return;pgOpen=null;pgMark();pgReset()}}
-function pgGoPage(n){var p=pgCards[1];if(pgOpen===n.id&&p&&p.k==="page")return;pgOpen=n.id;pgMark();pgReset(function(){pgAddPage(n)})}
+function pgGoPage(n){var p=pgCards[1];if(pgOpen===n.id&&p&&p.k==="page")return;pgOpen=n.id;pgMark();pgReset(function(){pgOpen=n.id;pgMark();pgAddPage(n)})}
 function pgAddPage(n){var sp=pgSplit(n.html),C=pgEl("section","pgc"),S=pgEl("div","pgs");C.setAttribute("aria-label",n.title);
  S.appendChild(pgEl("h1","pgt1",n.title));var tx=pgEl("div","pgx2");if(sp.html)tx.innerHTML=sp.html;else if(n.fake)tx.textContent="Testo della pagina: lo scrivi in WordPress, nella pagina corrispondente.";S.appendChild(tx);
  if(n.kids&&n.kids.length){var ul=pgEl("div","pgk");n.kids.forEach(function(k){var l=pgEl("button","pgi",k.title);l.type="button";l.onclick=function(){byId[k.id]=appFor(k);pgDropAfter(pc);openApp(k.id)};ul.appendChild(l)});S.appendChild(ul)}

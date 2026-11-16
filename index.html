@@ -868,6 +868,8 @@ html[data-theme=light] #pglig path{stroke:#111}
 @media(max-width:640px){#pgcs{top:84px;bottom:20px}}
 .pgcx,.pgcard.win .tb i{display:none!important}
 .pgcard.pgnav{box-shadow:-16px 0 34px rgba(0,0,0,.38)}
+#bar{padding-top:4px}
+#lg{position:relative;top:-6px}
 </style>
 <script>window.ARCHIVIO_SOURCE={wp:"wpcom:enzoricciodotcom.wordpress.com",label:"enzoriccio.com",exclude:["home"]};document.documentElement.className+=" wl";</script></head>
 <body>
@@ -1281,7 +1283,7 @@ function pgRender(keep){pgNav();var bl=pgModel(),all=[],y=0,old=pgCards[0];if(ol
  var L=pgEl("nav","pgnav");L.setAttribute("aria-label","Pagine");
  function item(n){var b=pgEl("button","pgi");b.type="button";b.dataset.id=n.id;if(n.meta){b.appendChild(pgEl("sup",null,n.meta))}b.appendChild(document.createTextNode(n.title));b.onclick=function(){pgGoPage(n)};return b}
  bl.forEach(function(b){var g=pgEl("div","pgg");if(b.h)g.appendChild(pgEl("h2","pgh2",b.h));b.items.forEach(function(n){g.appendChild(item(n))});L.appendChild(g)});
- var bt=pgEl("div","pgg pgbt");[["Diario di bordo","blog"],["Letture","libri"]].forEach(function(x){var b=pgEl("button","pgi",x[0]);b.type="button";b.onclick=function(){pgOpen=null;pgMark();pgReset(function(){openApp(x[1])})};bt.appendChild(b)});L.appendChild(bt);
+
  pgAdd("menu",L,.265);L.classList.remove("in");L.scrollTop=y}
 
 var PDFRE=/\.pdf(\?|#|$)|^data:application\/pdf/i,pgNo=0;

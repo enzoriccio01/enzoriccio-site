@@ -870,6 +870,10 @@ html[data-theme=light] #pglig path{stroke:#111}
 .pgcard.pgnav{box-shadow:-16px 0 34px rgba(0,0,0,.38)}
 #bar{padding-top:4px}
 #lg{position:relative;top:-6px}
+#lg{display:none!important}
+#bar{min-height:46px;padding-top:12px}
+#pgcs{top:54px}
+@media(max-width:640px){#pgcs{top:54px}}
 </style>
 <script>window.ARCHIVIO_SOURCE={wp:"wpcom:enzoricciodotcom.wordpress.com",label:"enzoriccio.com",exclude:["home"]};document.documentElement.className+=" wl";</script></head>
 <body>
@@ -1230,7 +1234,7 @@ function pgModel(){pgK=0;
  function add(n){if(n.slug==="libri")return;
   if(n.slug==="progetti"){n.kids.forEach(function(c){if(c.kids.length){loose=null;bl.push({h:c.title,items:c.kids})}else{if(!loose){loose={h:null,items:[]};bl.push(loose)}loose.items.push(c)}});return}
   if(n.kids.length){loose=null;bl.push({h:n.title,items:n.kids})}else{if(!loose){loose={h:null,items:[]};bl.push(loose)}loose.items.push(n)}}
- PGTOP.forEach(add);return bl}
+ PGTOP.forEach(add);var tt=bl.filter(function(b){return b.h}).reverse(),lo=bl.filter(function(b){return!b.h});return tt.concat(lo)}
 var IMGRE=/\.(jpe?g|png|gif|webp|avif|svg)(\?|#|$)|^data:image\//i;
 function pgSplit(h){var d=document.createElement("div");d.innerHTML=h?clean(h):"";var gr=[],n=0;
  function trig(lbl,items){var i=gr.push({items:items})-1,b=document.createElement("button");b.type="button";b.className="pgz";b.dataset.g=i;b.textContent=lbl;return b}
@@ -1281,7 +1285,7 @@ function pgView(a,ac){pgDropAfter(ac);var V=pgEl("div","pgv2"),f=pgEl("div","pgv
 function pgRender(keep){pgNav();var bl=pgModel(),all=[],y=0,old=pgCards[0];if(old&&old.el.scrollTop)y=old.el.scrollTop;
  pgCards.slice().forEach(function(c){if(c.win){delete S.win[c.win]}c.el.remove()});pgCards=[];pgOpen=null;
  var L=pgEl("nav","pgnav");L.setAttribute("aria-label","Pagine");
- function item(n){var b=pgEl("button","pgi");b.type="button";b.dataset.id=n.id;if(n.meta){b.appendChild(pgEl("sup",null,n.meta))}b.appendChild(document.createTextNode(n.title));b.onclick=function(){pgGoPage(n)};return b}
+ function item(n){var b=pgEl("button","pgi");b.type="button";b.dataset.id=n.id;var mt=n.meta,tl=n.title,mm=!mt&&/^(WIP|In corso|\d{4})\s+(.+)$/i.exec(tl);if(mm){mt=mm[1];tl=mm[2]}if(mt){b.appendChild(pgEl("sup",null,mt))}b.appendChild(document.createTextNode(tl));b.onclick=function(){pgGoPage(n)};return b}
  bl.forEach(function(b){var g=pgEl("div","pgg");if(b.h)g.appendChild(pgEl("h2","pgh2",b.h));b.items.forEach(function(n){g.appendChild(item(n))});L.appendChild(g)});
 
  pgAdd("menu",L,.265);L.classList.remove("in");L.scrollTop=y}

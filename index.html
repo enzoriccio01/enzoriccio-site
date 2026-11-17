@@ -41,8 +41,6 @@ a{color:var(--acx)}
 #cv:not(.ls) .ob .cp{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 #cvs:has(#cv:not(.ls)){overflow:hidden}
 .ic{display:block;width:calc(var(--s) * 1.16);height:calc(var(--s) * 1.16);flex:none;background:var(--ink);-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat;transition:background-color .25s,transform .7s cubic-bezier(.34,1.45,.64,1)}
-.ob .cp{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-#cvs:has(#cv:not(.ls)){overflow:hidden}
 .ob svg{width:var(--s);height:var(--s);overflow:visible;fill:var(--ink);stroke:var(--ink);stroke-width:0;transition:fill .25s,stroke .25s,transform .7s cubic-bezier(.34,1.45,.64,1)}
 .ob svg .st{fill:none;stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
 .ob .cp{font-size:14px;line-height:1.12;max-width:var(--w);transform:rotate(calc(var(--r) * -1))}
@@ -218,7 +216,7 @@ function build(groups){G=groups;OBJ=[];cv.querySelectorAll(".ow,.gh").forEach(fu
   g.items.forEach(function(n){var b=el("button","ob"),hs=hash(n.id+n.title),o={n:n,g:gi,el:b,seed:hs};o.ow2=function(){return o.ow.firstChild};b.type="button";b.dataset.id=n.id;
    var sh=shapeFor(RANK[n.id]),fi=hs%6,ic=el("span","ic");ic.setAttribute("aria-hidden","true");ic.style.setProperty("--m",svgUrl(plainSvg(sh)));b.appendChild(ic);o.ic=ic;bitmap(sh,fi).then(function(u){if(u){ic.style.setProperty("--m",u);if(o.cubeBox)o.cubeBox.style.setProperty("--m",u)}});var cp=el("span","cp");if(n.meta){cp.appendChild(el("sup",null,n.meta))}cp.appendChild(document.createTextNode(n.title));b.appendChild(cp);
    b.style.setProperty("--gf","url(#gr"+(hs%6)+")");if(VIS[n.id])markVis(o);
-   b.onclick=function(){softClick();openPage(o)};b.addEventListener("pointerenter",function(){HOV++});b.addEventListener("pointerleave",function(){HOV=Math.max(0,HOV-1)});b.addEventListener("focus",function(){HOV++});b.addEventListener("blur",function(){HOV=Math.max(0,HOV-1)});var w1=el("div","ow"),w2=el("div","ow2");w2.appendChild(b);w1.appendChild(w2);o.ow=w1;cv.insertBefore(w1,thr);OBJ.push(o);idx++})});
+   b.onclick=function(){softClick();openPage(o)};b.addEventListener("pointerenter",function(){HOV++});b.addEventListener("pointerleave",function(){HOV=Math.max(0,HOV-1)});b.addEventListener("focus",function(){HOV++});b.addEventListener("blur",function(){HOV=Math.max(0,HOV-1)});var w1=el("div","ow"),w2=el("div","ow2");w2.appendChild(b);w1.appendChild(w2);o.ow=w1;if(LIST)cv.appendChild(w1);else cv.insertBefore(w1,thr);OBJ.push(o);idx++})});
  filters();layout();document.documentElement.classList.add("in");setTimeout(function(){document.documentElement.classList.remove("in")},1400)}
 
 /* Orbita unica: un solo anello ellittico in prospettiva, una sola variabile di rotazione (PH).

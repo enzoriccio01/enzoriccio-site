@@ -238,7 +238,13 @@ var lastT=0;function frame(ts){var dt=Math.min(.05,(ts-lastT)/1000||0);lastT=ts;
 cvs.addEventListener("wheel",function(e){if(LIST||e.target.closest(".pn,.cb"))return;VEL=Math.max(-1.6,Math.min(1.6,VEL+e.deltaY*.0012))},{passive:true});
 
 /* clic morbido (sintetizzato, nessun file audio) */
-var AC=null;function softClick(){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();var t=AC.currentTime,o=AC.createOscillator(),g=AC.createGain(),f=AC.createBiquadFilter();o.type="sine";o.frequency.setValueAtTime(540,t);o.frequency.exponentialRampToValueAtTime(190,t+.07);f.type="lowpass";f.frequency.value=950;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.085,t+.005);g.gain.exponentialRampToValueAtTime(.0001,t+.12);o.connect(f);f.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+.14)}catch(e){}}
+var AC=null;
+function tick(){var t=AC.currentTime,m=AC.createGain(),f=AC.createBiquadFilter(),o=AC.createOscillator(),g=AC.createGain(),o2=AC.createOscillator(),g2=AC.createGain();
+ m.gain.value=.9;f.type="lowpass";f.frequency.value=3200;f.Q.value=.4;
+ o.type="sine";o.frequency.setValueAtTime(1250,t);o.frequency.exponentialRampToValueAtTime(520,t+.07);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.32,t+.004);g.gain.exponentialRampToValueAtTime(.0001,t+.13);
+ o2.type="triangle";o2.frequency.setValueAtTime(2400,t);o2.frequency.exponentialRampToValueAtTime(1100,t+.03);g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(.1,t+.002);g2.gain.exponentialRampToValueAtTime(.0001,t+.045);
+ o.connect(g);o2.connect(g2);g.connect(f);g2.connect(f);f.connect(m);m.connect(AC.destination);o.start(t);o2.start(t);o.stop(t+.15);o2.stop(t+.06)}
+function softClick(){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="running")tick();else{var r=AC.resume();if(r&&r.then)r.then(tick,function(){});else tick()}}catch(e){}}
 
 /* cubo 3D: la stessa forma estrusa a strati, ruotabile col mouse */
 function mkCube(o,p){var box=el("div","cb"),bg=el("div","bg"),cf=el("div","cf"),rot=el("div","cr pre"),L=20,D=44,c={box:box,rot:rot,cf:cf,bg:bg,rx:-20,ry:-30,vx:0,vy:16,drag:false,hold:false,st:{tx:0,ty:0,sc:1,e:1,bg:1}};box.tabIndex=0;box.setAttribute("role","img");box.setAttribute("aria-label","Icona in 3D di “"+p.title+"”: trascina per ruotarla, oppure usa le frecce");box.style.setProperty("--gf",o.el.style.getPropertyValue("--gf"));

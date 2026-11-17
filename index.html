@@ -207,9 +207,8 @@ function svg(sh){var d=sh.d,NS="http://www.w3.org/2000/svg",s=document.createEle
 
 /* ---------- stato ---------- */
 var G=[],OBJ=[],OPEN=[],Z=400,FILT=-1,LIST=false,FRONT=null,CUBES=[],GEO={},PH=0,VEL=0,SPD=1,HOV=0;
-var cv=$("#cv"),cvs=$("#cvs"),thr=$("#thr"),tabs=$("#tabs"),flt=$("#flt");var mr=document.createElement("div");mr.id="mr";mr.setAttribute("aria-hidden","true");cv.insertBefore(mr,cv.firstChild);mr.onclick=function(){OPEN.slice().forEach(function(p){closeP(p)});if(mob()&&hist>0){var h=hist;hist=0;try{history.go(-h)}catch(e){}}};var VIS={};
-(function(){var s=null;try{s=localStorage.getItem("vis2")}catch(e){}if(!s)try{s=sessionStorage.getItem("vis")}catch(e){}if(!s&&/^vis:/.test(window.name||""))s=window.name.slice(4);try{VIS=JSON.parse(s||"{}")||{}}catch(e){VIS={}}})();
-function saveVis(){var s=JSON.stringify(VIS);try{localStorage.setItem("vis2",s)}catch(e){}try{sessionStorage.setItem("vis",s)}catch(e){}try{if(!window.name||/^vis:/.test(window.name))window.name="vis:"+s}catch(e){}}
+var cv=$("#cv"),cvs=$("#cvs"),thr=$("#thr"),tabs=$("#tabs"),flt=$("#flt");var mr=document.createElement("div");mr.id="mr";mr.setAttribute("aria-hidden","true");cv.insertBefore(mr,cv.firstChild);mr.onclick=function(){OPEN.slice().forEach(function(p){closeP(p)});if(mob()&&hist>0){var h=hist;hist=0;try{history.go(-h)}catch(e){}}};var VIS={};try{localStorage.removeItem("vis2")}catch(e){}try{sessionStorage.removeItem("vis")}catch(e){}try{if(/^vis:/.test(window.name||""))window.name=""}catch(e){}
+function saveVis(){}
 function markVis(o){o.el.classList.add("vis");if(o.ic)o.ic.style.backgroundColor="var(--ac)"}
 var mob=function(){return innerWidth<=760};
 

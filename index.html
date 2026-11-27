@@ -214,6 +214,19 @@ a.kw{color:var(--acx);font-weight:600;text-decoration:none;border-bottom:1px sol
 .at.hl .ab{box-shadow:0 0 0 1px var(--ac),0 0 26px 3px rgba(255,55,27,.5)}
 .ab.aud{cursor:default;background:#fff;padding:14px 14px 12px;line-height:1.3}
 .ab.aud .at-t{font-size:13px;margin:0 0 10px;color:#000}.ab.aud audio{display:block;width:100%;height:36px}
+.ab.aud{display:flex;align-items:center;gap:12px;padding:12px 14px;line-height:1.3}
+.ab.aud .ap{width:30px;height:30px;flex:none;background:var(--ac);position:relative;cursor:pointer}
+.ab.aud .ap::before{content:"";position:absolute;inset:0;background:#fff;clip-path:polygon(36% 26%,36% 74%,76% 50%)}
+.ab.aud .ap.on::before{clip-path:polygon(30% 26%,44% 26%,44% 74%,30% 74%,56% 26%,70% 26%,70% 74%,56% 74%)}
+.ab.aud .ar{flex:1;min-width:0;accent-color:var(--ac);height:20px;margin:0;cursor:pointer}
+.ab.aud .at-tm{flex:none;color:var(--acx);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ab.aud audio{display:none}
+/* tutti i testi a 14, tranne quelli a 12 */
+html,body,body *{font-size:14px!important}
+sup,.pn h1 sup,.tx h1 sup,.pgt h1 sup,.tb sup,.cp sup,#hv,#hv *{font-size:12px!important}
+@media(max-width:760px){.ob .cp,.ob .cp *{font-size:12px!important}}
+/* allineamenti scelti nell'editor di WordPress */
+.has-text-align-right,.aligncenter.x{text-align:right!important}.has-text-align-center{text-align:center!important}.has-text-align-left{text-align:left!important}.has-text-align-justify{text-align:justify!important}
 .at figcaption{font-size:13px;line-height:1.25;margin:6px 0 0;opacity:.75}
 @media(max-width:760px){.pgx{display:none}.pg{top:92px}.pgi{grid-template-columns:1fr;padding-top:18px}.pn{background:#fff;text-shadow:none;overflow:hidden}.pn .bd{max-height:none;flex:1}}
 /* ---- anteprima grande ---- */
@@ -495,7 +508,12 @@ function parts(n){if(n._pt)return n._pt;var d=document.createElement("div");d.in
  var more=!!(re.textContent.trim()||re.querySelector("img,iframe,video,audio,ul,table,blockquote")||ATT.length);
  return n._pt={syn:sy.innerHTML,rest:re.innerHTML,atts:ATT,more:more}}
 var MORERE=/^\s*(scopri di pi[uù]|leggi (di )?pi[uù]|continua a leggere|read more)/i;
-function preview(a,i){var w=el("figure","at");if(a.t==="aud"){var bx=el("div","ab aud"),ti=el("div","at-t",a.title||"Audio"),au=document.createElement("audio");au.controls=true;au.preload="none";au.src=a.src;ti.id="";bx.appendChild(ti);bx.appendChild(au);w.appendChild(bx);if(a.cap&&a.cap!==a.title)w.appendChild(el("figcaption",null,a.cap));return w}var b=el("button","ab");b.type="button";if(a.t==="img")b.setAttribute("aria-label","Apri: "+(a.title||"immagine"));
+function preview(a,i){var w=el("figure","at");if(a.t==="aud"){var bx=el("div","ab aud"),au=document.createElement("audio"),bt=el("button","ap"),rg=document.createElement("input"),tm=el("span","at-tm","0:00");au.preload="metadata";au.src=a.src;bt.type="button";bt.setAttribute("aria-label","Riproduci");rg.type="range";rg.min=0;rg.max=1000;rg.value=0;rg.className="ar";rg.setAttribute("aria-label","Posizione");
+   function fm(s){s=isFinite(s)?Math.floor(s):0;return Math.floor(s/60)+":"+("0"+s%60).slice(-2)}
+   function up(){rg.value=au.duration?au.currentTime/au.duration*1000:0;tm.textContent=fm(au.currentTime)+(au.duration?" / "+fm(au.duration):"")}
+   au.addEventListener("timeupdate",up);au.addEventListener("loadedmetadata",up);au.addEventListener("play",function(){bt.classList.add("on");bt.setAttribute("aria-label","Pausa")});au.addEventListener("pause",function(){bt.classList.remove("on");bt.setAttribute("aria-label","Riproduci")});
+   bt.onclick=function(){if(au.paused)au.play().catch(function(){});else au.pause()};rg.oninput=function(){if(au.duration)au.currentTime=rg.value/1000*au.duration};
+   bx.appendChild(bt);bx.appendChild(rg);bx.appendChild(tm);bx.appendChild(au);w.appendChild(bx);if(a.cap&&a.cap!==a.title)w.appendChild(el("figcaption",null,a.cap));return w}var b=el("button","ab");b.type="button";if(a.t==="img")b.setAttribute("aria-label","Apri: "+(a.title||"immagine"));
  if(a.t==="img"){var im=document.createElement("img");im.src=a.thumb||a.src;im.alt=a.title||"";im.loading="lazy";b.appendChild(im)}
  else{b.classList.add("pdf");b.appendChild(el("span","pf0",a.title||"PDF"));var fr=document.createElement("iframe");fr.src=a.src+(a.src.indexOf("#")<0?"#toolbar=0&navpanes=0&scrollbar=0&view=FitH&page=1":"");fr.title="";fr.tabIndex=-1;fr.setAttribute("aria-hidden","true");b.appendChild(fr);b.appendChild(el("span","pl","PDF"))}
  w.appendChild(b);var c=a.cap||(a.t==="pdf"?a.title:"");if(c)w.appendChild(el("figcaption",null,c));return w}

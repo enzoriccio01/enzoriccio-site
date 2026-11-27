@@ -225,12 +225,12 @@ a.kw{color:var(--acx);font-weight:600;text-decoration:none;border-bottom:1px sol
 html,body,body *:not([style*="font-size"]):not([class*="-font-size"]):not([style*="font-size"] *):not([class*="-font-size"] *){font-size:14px!important}
 /* grandezze scelte nell'editor di WordPress */
 .has-small-font-size{font-size:13px}.has-medium-font-size{font-size:20px}.has-large-font-size{font-size:36px}.has-x-large-font-size{font-size:42px}.has-xx-large-font-size{font-size:56px}.has-huge-font-size{font-size:56px}
-[style*="font-size"] sup,[class*="-font-size"] sup{font-size:.6em!important}
-sup,.pn h1 sup,.tx h1 sup,.pgt h1 sup,.tb sup,.cp sup,#hv,#hv *{font-size:12px!important}
-@media(max-width:760px){.ob .cp,.ob .cp *{font-size:12px!important}}
+[style*="font-size"] sup:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f),[class*="-font-size"] sup:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f){font-size:.6em!important}
+sup:not(#a):not(#b):not(#c):not(#d):not(#e),#hv,#hv *{font-size:12px!important}
+@media(max-width:760px){.ob .cp:not(#a):not(#b):not(#c):not(#d):not(#e),.ob .cp *:not(#a):not(#b):not(#c):not(#d):not(#e){font-size:12px!important}}
 /* titoli delle pagine: restano grandi */
-.pn h1{font-size:clamp(30px,3.4vw,50px)!important}
-.tx h1{font-size:clamp(32px,4.4vw,64px)!important}
+.pn h1:not(#a):not(#b){font-size:clamp(30px,3.4vw,50px)!important}
+.tx h1:not(#a):not(#b){font-size:clamp(32px,4.4vw,64px)!important}
 /* allineamenti scelti nell'editor di WordPress */
 .has-text-align-right,.aligncenter.x{text-align:right!important}.has-text-align-center{text-align:center!important}.has-text-align-left{text-align:left!important}.has-text-align-justify{text-align:justify!important}
 .at figcaption{font-size:13px;line-height:1.25;margin:6px 0 0;opacity:.75}
